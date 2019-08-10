@@ -61,3 +61,6 @@ typings/
 .next
 
 *.scss.d.ts
+dist
+package-lock.json
+.vscode
