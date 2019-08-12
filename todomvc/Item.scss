@@ -1,0 +1,55 @@
+.main {
+  display: flex;
+}
+
+.left {
+  flex: 0 4.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  &.active {
+    color: green;
+  }
+}
+
+.right {
+  flex: 0 4.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: red;
+
+  transition: opacity 0.28s ease-in-out 0s,
+              visibility 0.28s ease-in-out 0s;
+
+  visibility: hidden;
+  opacity: 0;
+  .main:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.middle {
+  flex: 1;
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  line-height: 1.5;
+
+  transition: color 0.28s ease-out 0s, 
+              text-decoration 0.28s ease-out 0s;
+
+  color: #454545;
+  &.active {
+    color: #adadad;
+    text-decoration: line-through;
+  }
+}
+

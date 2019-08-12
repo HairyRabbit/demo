@@ -1,0 +1,18 @@
+@import '~normalize.css';
+@import '~sanitize.css';
+
+:root {
+  --font-size: 16px;
+  --font-line-height: 1.5;
+  --color-foreground: #232323;
+  --color-background: #FFFFFF;
+  --color-primary: #eab63c;
+}
+
+body {
+  font-size: var(--font-size);
+  line-height: var(--font-line-height);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  overflow-x: hidden;
+}
