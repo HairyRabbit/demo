@@ -2,29 +2,13 @@
   display: flex;
 }
 
-.left {
-  flex: 0 4.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 0;
-  font-size: 1.5rem;
-  cursor: pointer;
-
-  &.active {
-    color: green;
-  }
-}
-
 .right {
   flex: 0 4.25rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem 0;
-  font-size: 1.5rem;
   cursor: pointer;
-  color: red;
+  color: #adadad;
 
   transition: opacity 0.28s ease-in-out 0s,
               visibility 0.28s ease-in-out 0s;
@@ -35,6 +19,12 @@
     visibility: visible;
     opacity: 1;
   }
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: currentColor;
 }
 
 .middle {

@@ -1,0 +1,17 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  
+  transition: color 0.28s ease-out 0s;
+  color: inherit;
+  &.active {
+    color: var(--color-primary);
+  }
+}

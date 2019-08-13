@@ -31,12 +31,14 @@
   border: 1px solid;
   margin: 0 0.25rem;
   font-size: 0.75rem;
+  text-decoration: none;
+  color: inherit;
   cursor: pointer;
 
   transition: border-color 0.28s ease-out 0s;
 
   border-color: #ccc;
   &:hover, &.active {
-    border-color: red;
+    border-color: var(--color-primary);
   }
 }

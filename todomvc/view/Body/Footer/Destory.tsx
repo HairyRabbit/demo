@@ -9,7 +9,7 @@ export default function Destory() {
   const dispatch = useDispatch()
   const handleClick = useCallback(() => dispatch({ type: TodosActionType.CleanTodos }), [])
 
-  const completedTodos = useSelector<Model, number>(model => model.todos.data.countBy(item => item.todo.isDone))
+  const completedTodos = useSelector<Model, number>(model => model.todos.countBy(item => item.todo.isDone))
   if(0 === completedTodos) return null
 
   return (

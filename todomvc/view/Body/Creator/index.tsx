@@ -1,36 +1,38 @@
 import { useCallback, KeyboardEvent } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Model } from '../../../store'
 import TextField from '../../../component/TextField'
-import { CreateTodoAction, ActionType as TodosActionType } from '../../../action/todos'
+import CheckBox from '../../../component/CheckBox'
+import { Model } from '../../../store'
+import { CreateTodoAction, ActionType as TodosActionType, ToggleTodoAllCompleteAction } from '../../../action/todos'
 import { CleanValueAction, ActionType as CreatorActionType, UpdateValueAction } from '../../../action/creator'
 import style from './style.scss'
 
 export default function Creator() {
+  const value = useSelector<Model, string>(model => model.creator)
+  const isAllDone = useSelector<Model, boolean>(model => model.todos.count() && model.todos.everyBy(data => data.todo.isDone))
   const dispatch = useDispatch()
-  const value = useSelector((model: Model) => model.creator.value)
-
-  const handleChange = useCallback(val => dispatch<UpdateValueAction>({ type: CreatorActionType.UpdateValue, payload: val.trim() }), [])
+  const handleTextChange = useCallback(text => dispatch<UpdateValueAction>({ type: CreatorActionType.UpdateValue, payload: text.trim() }), [])
+  const handleToggleChange = useCallback(() => dispatch<ToggleTodoAllCompleteAction>({ type: TodosActionType.ToggleTodoAllComplete }), [])
   const handleKeyDown = useCallback((evt: KeyboardEvent<HTMLInputElement>) => {
-    if('' === value) return
-    else if(13 !== evt.which) return
+    if('' === value || 13 !== evt.which) return
     evt.preventDefault()
     dispatch<CreateTodoAction>({ type: TodosActionType.CreateTodo, payload: value })
     dispatch<CleanValueAction>({ type: CreatorActionType.CleanValue })
   }, [value])
-
-  const handleClick = useCallback(() => {
-    dispatch({ type: TodosActionType.ToggleTodoAllComplete })
-  }, [])
   
   return (
     <div className={style.main}>
-      <div className={style.left} onClick={handleClick}>✓</div>
-      <TextField 
-        autoFocus
+      <CheckBox
+        checked={isAllDone}
+        onChange={handleToggleChange}
+      />
+      <TextField
         value={value}
-        onChange={handleChange}
+        onChange={handleTextChange}
         onKeyDown={handleKeyDown}
+        className={style.input}
+        placeholder="What needs to be done?"
+        autoFocus
       />
     </div>
   )

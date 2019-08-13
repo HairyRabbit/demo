@@ -12,13 +12,9 @@ export interface Data {
   isEdit: boolean
 }
 
-export interface Model {
-  data: DataContainer<Data>
-}
+export type Model = DataContainer<Data>
 
-export const init: Model = {
-  data: makeData([])
-}
+export const init: Model = makeData([])
 
 export const enum ActionType {
   CreateTodo = '@todos/create',
@@ -41,7 +37,7 @@ export type UpdateTodoEditAction = { type: ActionType.UpdateTodoEdit, payload: {
 export type ConfirmTodoEditAction = { type: ActionType.ConfirmTodoEdit, payload: Data }
 export type CancleTodoEditAction = { type: ActionType.CancleTodoEdit, payload: Data }
 export type ToggleTodoAllCompleteAction = { type: ActionType.ToggleTodoAllComplete }
-export type ToggleTodoCompleteAction = { type: ActionType.ToggleTodoComplete, payload: Data }
+export type ToggleTodoCompleteAction = { type: ActionType.ToggleTodoComplete, payload: number }
 
 type Action = 
  | CreateTodoAction
@@ -56,29 +52,30 @@ type Action =
 
 export function update(model: Model = init, action: Action): Model {
   switch(action.type) {
-    case ActionType.CreateTodo: return { ...model, data: model.data.create({ text: '', isEdit: false, todo: { id: Date.now(), text: action.payload, isDone: false } }) }
-    case ActionType.RemoveTodo: return { ...model, data: model.data.destroyBy(item => action.payload === item.todo.id)}
+    case ActionType.CreateTodo: return model.create({ text: '', isEdit: false, todo: { id: Date.now(), text: action.payload, isDone: false } })
+    case ActionType.RemoveTodo: return model.destroyBy(item => action.payload === item.todo.id)
     
-    case ActionType.EnableTodoEdit: return { ...model, data: model.data.update(action.payload, { ...action.payload, isEdit: true, text: action.payload.todo.text }) }
-    case ActionType.ConfirmTodoEdit: return { ...model, data: model.data.update(action.payload, { ...action.payload, todo: { ...action.payload.todo, text: action.payload.text }, isEdit: false, text: '' }) }
-    case ActionType.CancleTodoEdit: return { ...model, data: model.data.update(action.payload, { ...action.payload, isEdit: false, text: '' }) }
+    case ActionType.EnableTodoEdit: return model.update(action.payload, { ...action.payload, isEdit: true, text: action.payload.todo.text })
+    case ActionType.ConfirmTodoEdit: return model.update(action.payload, { ...action.payload, todo: { ...action.payload.todo, text: action.payload.text }, isEdit: false, text: '' })
+    case ActionType.CancleTodoEdit: return model.update(action.payload, { ...action.payload, isEdit: false, text: '' })
     case ActionType.UpdateTodoEdit: {
       const { id, text } = action.payload
-      return { 
-        ...model, 
-        data: model.data.updateBy(
-          item => id === item.todo.id, 
-          data => ({ ...data, text })
-        ) 
-      }
+      return model.updateBy(
+        item => id === item.todo.id, 
+        data => ({ ...data, text })
+      ) 
     }
     
-    case ActionType.ToggleTodoComplete: return { ...model, data: model.data.update(action.payload, { ...action.payload, todo: { ...action.payload.todo, isDone: !action.payload.todo.isDone }}) }
+    case ActionType.ToggleTodoComplete: return model.updateBy(
+      item => action.payload === item.todo.id, 
+      data => ({ ...data, todo: { ...data.todo, isDone: !data.todo.isDone }})
+    )
+    
     case ActionType.ToggleTodoAllComplete: {
-      const isAllDone = model.data.everyBy(item => true === item.todo.isDone)
-      return { ...model, data: model.data.updateAllBy(item => ({ ...item, todo: {...item.todo, isDone: !isAllDone } })) }
+      const isAllDone = model.everyBy(item => true === item.todo.isDone)
+      return model.updateAllBy(item => ({ ...item, todo: {...item.todo, isDone: !isAllDone } }))
     }
-    case ActionType.CleanTodos: return { ...model, data: model.data.destroyBy(item => item.todo.isDone)}
+    case ActionType.CleanTodos: return model.destroyBy(item => item.todo.isDone)
     
     default: return model
   }

@@ -2,11 +2,6 @@
   display: flex;
 }
 
-.left {
-  flex: 0 4.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1.375rem 0;
-  cursor: pointer;
+.input::placeholder {
+  font-style: italic;
 }

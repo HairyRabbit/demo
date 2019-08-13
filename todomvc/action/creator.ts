@@ -1,10 +1,6 @@
-export interface Model {
-  value: string
-}
+export type Model = string
 
-export const init: Model = {
-  value: ''
-}
+export const init: Model = ''
 
 export enum ActionType {
   UpdateValue = '@creator/update',
@@ -20,8 +16,8 @@ type Action =
 
 export function update(model: Model = init, action: Action): Model {
   switch(action.type) {
-    case ActionType.UpdateValue: return { ...model, value: action.payload }
-    case ActionType.CleanValue: return { ...model, value: init.value }
+    case ActionType.UpdateValue: return action.payload
+    case ActionType.CleanValue: return init
     default: return model
   }
 }
