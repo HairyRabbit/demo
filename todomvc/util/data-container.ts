@@ -29,6 +29,14 @@ export class DataContainer<T> {
       ...this.data.slice(index + 1)
     ])
   }
+  updateBy(query:(item: T) => boolean, updater: (data: T) => T): DataContainer<T> {
+    const index = this.data.findIndex(item => query(item))
+    return new DataContainer([
+      ...this.data.slice(0, index),
+      updater(this.data[index]),
+      ...this.data.slice(index + 1)
+    ])
+  }
   updateAllBy(query: (item: T) => T) {
     return new DataContainer(this.data.map(item => query(item)))
   }

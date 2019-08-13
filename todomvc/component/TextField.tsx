@@ -11,7 +11,7 @@ interface Props extends BaseAttr {
 export default function TextField({ value, onChange, ...props }: Props) {
   const handleChange = useCallback((evt: ChangeEvent<HTMLInputElement>) => {
     if(`function` === typeof onChange) onChange(evt.target.value)
-  }, [value])
+  }, [])
 
   return (
     <input 

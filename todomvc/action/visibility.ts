@@ -1,5 +1,4 @@
 export const enum Visibility { All = 'All', Active = 'Active', Completed = 'Completed' }
-export const visibilitys = [Visibility.All, Visibility.Active, Visibility.Completed]
 
 export interface Model {
   visibility: Visibility
@@ -9,12 +8,14 @@ export const init: Model = {
   visibility: Visibility.All
 }
 
-export enum ActionType {
-  ToggleVisibility = '@visibility/toggle'
+export const ActionType = {
+  ToggleVisibility: '@visibility/toggle'
 }
 
+export type ToggleVisibilityAction = { type: typeof ActionType.ToggleVisibility, payload: Visibility }
+
 export type Action = 
-  | { type: typeof ActionType.ToggleVisibility, payload: Visibility }
+  | ToggleVisibilityAction
 
 
 export function update(model: Model = init, action: Action): Model {

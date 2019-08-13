@@ -1,9 +1,9 @@
 import { shallowEqual, useSelector } from 'react-redux'
-import { Model } from './store'
+import { Model } from '../../../store'
 import Item from './Item'
-import style from './List.scss'
-import { Data } from './action/todos'
-import { Visibility } from './action/visibility'
+import style from './style.scss'
+import { Data } from '../../../action/todos'
+import { Visibility } from '../../../action/visibility'
 
 export default function List() {
   const visibility = useSelector<Model, Visibility>(model => model.visibility.visibility)

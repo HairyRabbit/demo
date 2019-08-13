@@ -11,9 +11,12 @@ export enum ActionType {
   CleanValue = '@creator/clean'
 }
 
-export type Action = 
- | { type: typeof ActionType.UpdateValue, payload: string }
- | { type: typeof ActionType.CleanValue }
+export type UpdateValueAction = { type: typeof ActionType.UpdateValue, payload: string }
+export type CleanValueAction = { type: typeof ActionType.CleanValue }
+
+type Action = 
+ | UpdateValueAction
+ | CleanValueAction
 
 export function update(model: Model = init, action: Action): Model {
   switch(action.type) {
